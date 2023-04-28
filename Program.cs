@@ -1,4 +1,5 @@
-﻿namespace CNSL_BatchOperations
+﻿using Utils;
+namespace CNSL_BatchOperations
 {
     internal class Program
     {
