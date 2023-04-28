@@ -13,7 +13,7 @@ namespace Utils
     {
 
         //public static Dictionary<string, string> readBatchFile(string fileName) 
-        public static string readBatchFile(string fileName)
+        public static string ReadBatchFile(string fileName)
         {
 
             // Batch file need to handle the transaction operations
@@ -167,7 +167,7 @@ namespace Utils
 
         }
 
-        private static int countPipes(string batchLine)
+        private static int CountPipes(string batchLine)
         {
 
             return batchLine.Count(t => t == '|');
