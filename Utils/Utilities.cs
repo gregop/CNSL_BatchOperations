@@ -6,13 +6,16 @@ using System.IO;
 using System.Text;
 using BatchModel;
 
-public static class Utilities 
+namespace Utils
 {
 
-    //public static Dictionary<string, string> readBatchFile(string fileName) 
-    public static string readBatchFile(string fileName)
+    public static class Utilities
     {
-            
+
+        //public static Dictionary<string, string> readBatchFile(string fileName) 
+        public static string readBatchFile(string fileName)
+        {
+
             // Batch file need to handle the transaction operations
             Dictionary<string, string> batchOptions = new Dictionary<string, string>();
             batchOptions.Add("AUTH", "Authorization");
@@ -22,7 +25,8 @@ public static class Utilities
             batchOptions.Add("REV", "Reversal");
 
             //Console.WriteLine(batchFile.BatchSystemId.ToString());
-            try {
+            try
+            {
 
                 Console.WriteLine("--LOG--\t Opening file from {0:G}.", fileName);
                 using (StreamReader reader = new StreamReader(fileName))
@@ -34,7 +38,7 @@ public static class Utilities
 
 
                     // if (isValidBatch(fileContent, batchFile)){
-                        
+
                     //     //write function to readperline and build requests as json
                     //     return true;
                     // } 
@@ -46,20 +50,22 @@ public static class Utilities
                 }
 
             }
-            catch(FileNotFoundException ex) {
+            catch (FileNotFoundException ex)
+            {
                 Console.WriteLine("--ERROR--\t Something went wrong\t{0:G}", ex.Message);
                 return ex.Message;
             }
-            
+
         }
 
 
-        private static bool isValidBatch(string batchContent, BatchFile batchFile) {
+        private static bool isValidBatch(string batchContent, BatchFile batchFile)
+        {
 
             Console.WriteLine("--LOG--\t Validating batch file...");
 
             // SEPERATE ALL LINES USING LINE BREAKS AND STORE THEM IN A DICTIONARY
-            string[] contentPerLineArray = batchContent.Split(new[] 
+            string[] contentPerLineArray = batchContent.Split(new[]
                 { Environment.NewLine }, StringSplitOptions.None);
 
             /* VALIDATION - PHASE 1 - START
@@ -67,13 +73,16 @@ public static class Utilities
             *   at the end of the IsValid Batch function
             */
             // 1. CHECK FIRST and LAST line
-            String[] firstAndLastLines = 
+            String[] firstAndLastLines =
                         new string[2] {contentPerLineArray[0],
                          contentPerLineArray[contentPerLineArray.Length -1]};
-            
-            if (CheckFirstAndLastLine(firstAndLastLines, batchFile)){
+
+            if (CheckFirstAndLastLine(firstAndLastLines, batchFile))
+            {
                 return true;
-            }else{
+            }
+            else
+            {
                 return false;
             };
 
@@ -86,34 +95,43 @@ public static class Utilities
         }
 
 
-        private static bool CheckFirstAndLastLine (string[] lines, BatchFile batchFile)
+        private static bool CheckFirstAndLastLine(string[] lines, BatchFile batchFile)
         {
 
             bool check_MED, check_EOF;
-            try {
+            try
+            {
 
                 //CHECK MDET
-                if ( lines[0] != null ){
-                    if (lines[0].Substring(0, 4) == "MDET" && countPipes(lines[0]) == 3 ) {
+                if (lines[0] != null)
+                {
+                    if (lines[0].Substring(0, 4) == "MDET" && countPipes(lines[0]) == 3)
+                    {
                         Console.WriteLine("--LOG--\t Batch Merchant Details line Format\t\t[OK]");
                         check_MED = true;
-                    } else {
+                    }
+                    else
+                    {
                         Console.WriteLine("--LOG--\t Batch First Line Out of Format\t\t[NOK] <--");
                         check_MED = false;
                     }
-                } else {
+                }
+                else
+                {
                     Console.WriteLine("--LOG--\t Batch First Line Out of Format\t\t[NOK]");
                     check_MED = false;
                 }
 
                 // CHECK EOF
-                if (lines[1] != null && lines[1].Length == 3 && lines[1] == "EOF"){
+                if (lines[1] != null && lines[1].Length == 3 && lines[1] == "EOF")
+                {
 
                     string[] contentFirstLine = lines[0].Split(new[] { "|" }, StringSplitOptions.None);
                     if (contentFirstLine[2] == "402971")
                     {
                         batchFile.Acquirer = 402971;
-                    }else
+                    }
+                    else
                     {
                         Console.WriteLine("--LOG--\t Line 1: AqcuirerId Format\t\t[NOK]");
                         check_EOF = false;
@@ -125,19 +143,22 @@ public static class Utilities
                     batchFile.Acquirer = AcqId;
                     batchFile.Outlet = contentFirstLine[1];
                     batchFile.BatchId = contentFirstLine[3];
-                    
+
                     Console.WriteLine("--LOG--\t Batch EOF line Format\t\t[OK]");
                     check_EOF = true;
                     //return true;
 
-                } else {
+                }
+                else
+                {
                     Console.WriteLine("--LOG--\t Batch Last Line Out of Format\t\t[NOK]");
                     check_EOF = false;
                     //return false;
                 }
-                    
-            } 
-            catch (Exception ex) {
+
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine("--ERROR--\t Something went wrong\t{0:G}", ex.Message);
                 return false;
             }
@@ -152,4 +173,5 @@ public static class Utilities
             return batchLine.Count(t => t == '|');
         }
 
+    }
 }
