@@ -10,40 +10,47 @@ using System.Globalization;
   AttributeTargets.Field, AllowMultiple = false)]
 public class ValidateCardNum : ValidationAttribute
 {
-    
-    public override bool IsValid(object? value)
+    private readonly string _property_name;
+    public ValidateCardNum(string property_name)
     {
-        bool result = true;
-        List<int> card_valid_length = new List<int>(2) {15, 16};
+        _property_name = property_name;
+    }
 
-        try
+    private static bool IsNumericAndValidLength(object value)
+    {
+        bool isNumeric = Int64.TryParse(value.ToString(), out Int64 number);
+
+        if (isNumeric)
         {
-            
-            if (value == null)
-            {
-                return false;
-            }
-
-            string cardNum = (String)value;
-        
-            if ( card_valid_length.Contains(cardNum.Length) )
-            {
-                return result;
-            } else { return false; }
-        
-
-        } catch (Exception e){
-            Console.WriteLine(e.Message);
+            return number.ToString().Length  == 15 
+                || number.ToString().Length == 16;
+        }
+        else
+        {
             return false;
+        }
+        
+    }
+
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+        
+        if (value == null)
+        {
+            return new ValidationResult($"{_property_name}is required");
+        }
+
+        if (IsNumericAndValidLength(value))
+        {
+            return ValidationResult.Success;
+        }
+        else
+        {
+            return new ValidationResult($"{_property_name} is invalid");
         }
 
     }
 
-    public override string FormatErrorMessage(string name)
-    {
-    return String.Format(CultureInfo.CurrentCulture, 
-        ErrorMessageString, name);
-    }
 
 }
 

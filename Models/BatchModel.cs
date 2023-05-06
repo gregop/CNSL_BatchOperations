@@ -18,17 +18,21 @@ namespace BatchModel
          * number of batches processed, via a file, and add 1
         */
         public int BatchSystemId { get { return SetBatchSystemId(); } }
+
         public string? Mdet { get; set; }
 
         [ValidateOutlet(ErrorMessage = "{0} field validation failed.")]
         public string? Outlet {get; set;}
 
         [ValidateAcquirer(ErrorMessage = "{0} field validation failed.")]
-        public int Acquirer {get; set;}
+        public int AcquirerId {get; set;}
+
         public string? BatchId { get; set; }
 
         public string ?Body {get; set;}
+
         public string? Eof { get; set; }
+
 
         private protected static int SetBatchSystemId(){
             return 1;
@@ -40,12 +44,12 @@ namespace BatchModel
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
-        [ValidateCardNum(ErrorMessage = "{0} field validation failed.")]
-        public Int64 CardNum {get; set;}
+        [ValidateCardNum("CardNum")]
+        public string CardNum {get; set;}
         public int Currency {get; set;}
-        public int ExpDate {get; set;}
-        public int Cvv {get; set;}
-        public Int64 PurchaseAmt {get; set;}
+        public string ExpDate {get; set;}
+        public string Cvv {get; set;}
+        public string PurchaseAmt {get; set;}
         public string? OrderId {get; set;}
 
     }
@@ -54,10 +58,10 @@ namespace BatchModel
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
-        [ValidateCardNum(ErrorMessage = "{0} field validation failed.")]
-        public Int64 CardNum {get; set;}
-        public int Currency {get; set;}
-        public int ExpDate {get; set;}
+        [ValidateCardNum("CardNum")]
+        public string ?CardNum {get; set;}
+        public int ?Currency {get; set;}
+        public string ?ExpDate {get; set;}
         public int Cvv {get; set;}
         public Int64 PurchaseAmt {get; set;}
         public Int64 PurchaseAmtCapture {get; set;}
