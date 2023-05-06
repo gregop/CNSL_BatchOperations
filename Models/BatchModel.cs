@@ -17,18 +17,20 @@ namespace BatchModel
          * This will set the BatchSystemId, by reading the total
          * number of batches processed, via a file, and add 1
         */
-        public int BatchSystemId { get { return setBatchSystemId(); } }
-        public string BatchId {get; set;} = null!;
+        public int BatchSystemId { get { return SetBatchSystemId(); } }
+        public string? Mdet { get; set; }
 
         [ValidateOutlet(ErrorMessage = "{0} field validation failed.")]
-        public string Outlet {get; set;} = null!;
+        public string? Outlet {get; set;}
 
         [ValidateAcquirer(ErrorMessage = "{0} field validation failed.")]
         public int Acquirer {get; set;}
+        public string? BatchId { get; set; }
 
-        public string Body {get; set;} = null!;
+        public string ?Body {get; set;}
+        public string? Eof { get; set; }
 
-        protected int setBatchSystemId(){
+        private protected static int SetBatchSystemId(){
             return 1;
         }
 
@@ -36,7 +38,7 @@ namespace BatchModel
 
     internal class Auth : BatchFile
     {
-        public int BatchLinked  { get { return setBatchSystemId(); }}
+        public int BatchLinked  { get { return SetBatchSystemId(); }}
 
         [ValidateCardNum(ErrorMessage = "{0} field validation failed.")]
         public Int64 CardNum {get; set;}
@@ -44,13 +46,13 @@ namespace BatchModel
         public int ExpDate {get; set;}
         public int Cvv {get; set;}
         public Int64 PurchaseAmt {get; set;}
-        public string OrderId {get; set;} = null!;
+        public string? OrderId {get; set;}
 
     }
 
     internal class AuthCapture : BatchFile
     {
-        public int BatchLinked  { get { return setBatchSystemId(); }}
+        public int BatchLinked  { get { return SetBatchSystemId(); }}
 
         [ValidateCardNum(ErrorMessage = "{0} field validation failed.")]
         public Int64 CardNum {get; set;}
@@ -59,18 +61,18 @@ namespace BatchModel
         public int Cvv {get; set;}
         public Int64 PurchaseAmt {get; set;}
         public Int64 PurchaseAmtCapture {get; set;}
-        public string OrderId {get; set;} = null!;
+        public string? OrderId {get; set;}
 
     }
 
     internal class Capture : BatchFile
     {
-        public int BatchLinked  { get { return setBatchSystemId(); }}
+        public int BatchLinked  { get { return SetBatchSystemId(); }}
         public int Currency {get; set;}
         public Int64 PurchaseAmt {get; set;}
         public Int64 PurchaseAmtCapture {get; set;}
-        public string OrderId {get; set;} = null!;
-        public string AuthCode {get; set;} = null!;
+        public string? OrderId {get; set;}
+        public string? AuthCode {get; set;}
 
     }
     
