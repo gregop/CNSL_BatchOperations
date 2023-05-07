@@ -21,7 +21,7 @@ namespace BatchModel
 
         public string? Mdet { get; set; }
 
-        [ValidateOutlet(ErrorMessage = "{0} field validation failed.")]
+        [ValidateOutlet("outlet")]
         public string? Outlet {get; set;}
 
         [ValidateAcquirer(ErrorMessage = "{0} field validation failed.")]
