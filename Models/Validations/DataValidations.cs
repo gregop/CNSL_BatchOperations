@@ -94,35 +94,36 @@ public class ValidateAcquirerAttribute : ValidationAttribute
   AttributeTargets.Field, AllowMultiple = false)]
 public class ValidateOutletAttribute : ValidationAttribute
 {
-
-    public override bool IsValid(object? value)
+    private readonly string _property_name;
+    public ValidateOutletAttribute(string property_name)
     {
-        try
+        _property_name = property_name;
+    }
+
+    private static bool CheckIfAllDigitsAndLenght(object value)
+    {
+        return value.ToString().All(char.IsDigit) 
+            && value.ToString().Length == 10;
+    }
+
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+
+        if (value == null)
         {
+            return new ValidationResult($"{_property_name} is required");
+        }
 
-            if (value == null)
-            {
-                return false;
-            }
-
-            string outletId = (String)value;
-            //Console.WriteLine("Validating OutletId");
-            if (outletId.Length == 10 && outletId.All(char.IsDigit)){
-                return true;
-            } else { return false; }
-
-        } catch (Exception e){
-            Console.WriteLine(e.Message);
-            return false;
+        if (!CheckIfAllDigitsAndLenght(value))
+        {
+            return new ValidationResult($"{_property_name} should be of digits only and of lenght 10");
+        } 
+        else
+        {
+            return ValidationResult.Success;
         }
         
 
-    }
-
-    public override string FormatErrorMessage(string name)
-    {
-        return String.Format(CultureInfo.CurrentCulture, 
-            ErrorMessageString, name);
     }
 
 }
