@@ -105,7 +105,7 @@ namespace Utils
                 //CHECK MDET
                 if (lines[0] != null)
                 {
-                    if (lines[0].Substring(0, 4) == "MDET" && countPipes(lines[0]) == 3)
+                    if (lines[0].Substring(0, 4) == "MDET" && CountPipes(lines[0]) == 3)
                     {
                         Console.WriteLine("--LOG--\t Batch Merchant Details line Format\t\t[OK]");
                         check_MED = true;
@@ -129,7 +129,7 @@ namespace Utils
                     string[] contentFirstLine = lines[0].Split(new[] { "|" }, StringSplitOptions.None);
                     if (contentFirstLine[2] == "402971")
                     {
-                        batchFile.Acquirer = 402971;
+                        batchFile.AcquirerId = 402971;
                     }
                     else
                     {
