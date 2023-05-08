@@ -17,7 +17,10 @@ namespace BatchModel
          * This will set the BatchSystemId, by reading the total
          * number of batches processed, via a file, and add 1
         */
-        public int BatchSystemId { get { return SetBatchSystemId(); } }
+        public static int BatchSystemId { get { return SetBatchSystemId(); } }
+
+        [Range(3, 3, ErrorMessage = "Head of Batch is out of format.")]
+        public int HeadPipes { get; set; }
 
         public string? Mdet { get; set; }
 
@@ -44,6 +47,9 @@ namespace BatchModel
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
+        [Range(6, 6, ErrorMessage = "AUTH line out of format")]
+        public int AuthPipes { get; set; }
+
         [ValidateCardNum("CardNum")]
         public string CardNum {get; set;}
         public int Currency {get; set;}
@@ -57,6 +63,9 @@ namespace BatchModel
     internal class AuthCapture : BatchFile
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
+
+        [Range(10, 10, ErrorMessage = "AUTHC line out of format")]
+        public int AuthCPipes { get; set; }
 
         [ValidateCardNum("CardNum")]
         public string ?CardNum {get; set;}
@@ -72,6 +81,9 @@ namespace BatchModel
     internal class Capture : BatchFile
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
+
+        [Range(9, 9, ErrorMessage = "AUTHC line out of format")]
+        public int CaptPipes { get; set; }
         public int Currency {get; set;}
         public Int64 PurchaseAmt {get; set;}
         public Int64 PurchaseAmtCapture {get; set;}
