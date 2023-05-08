@@ -27,8 +27,8 @@ namespace BatchModel
         [ValidateOutlet("outlet")]
         public string? Outlet {get; set;}
 
-        [ValidateAcquirer(ErrorMessage = "{0} field validation failed.")]
-        public int AcquirerId {get; set;}
+        [Compare("404040", ErrorMessage = "Invalid Acquirer Id")]
+        public string? AcquirerId {get; set;}
 
         public string? BatchId { get; set; }
 

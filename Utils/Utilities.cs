@@ -30,13 +30,14 @@ namespace Utils
                 Console.WriteLine("--LOG--\t Opening file from {0:G}.", fileName);
                 using (StreamReader reader = new StreamReader(fileName))
                 {
-                    
+                    Console.WriteLine("--LOG--\t START Reading {0:G}\t\t[OK]", fileName);
                     string fileContent = reader.ReadToEnd();
                     string[] contentPerLineArray = fileContent.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                    Console.WriteLine("--LOG--\t Reading {0:G}\t\t[OK]", fileName);
+                    
 
                     if (contentPerLineArray.Length >= 3)
                     {
+                        Console.WriteLine("--LOG--\t END Reading {0:G}\t\t[OK]", fileName);
                         return new Dictionary<string, object>
                             {
                                 {"Head", contentPerLineArray[0] },
