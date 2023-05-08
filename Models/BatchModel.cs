@@ -27,7 +27,7 @@ namespace BatchModel
         [ValidateOutlet("outlet")]
         public string? Outlet {get; set;}
 
-        [Compare("404040", ErrorMessage = "Invalid Acquirer Id")]
+        [Compare("402971", ErrorMessage = "Invalid Acquirer Id")]
         public string? AcquirerId {get; set;}
 
         public string? BatchId { get; set; }
