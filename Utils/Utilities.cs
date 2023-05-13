@@ -68,7 +68,7 @@ namespace Utils
 
 
 
-        private static int CountPipes(string batchLine)
+        public static int CountPipes(string batchLine)
         {
 
             return batchLine.Count(t => t == '|');

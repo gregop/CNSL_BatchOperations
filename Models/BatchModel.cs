@@ -17,7 +17,7 @@ namespace BatchModel
          * This will set the BatchSystemId, by reading the total
          * number of batches processed, via a file, and add 1
         */
-        public static int BatchSystemId { get { return SetBatchSystemId(); } }
+        public int BatchSystemId { get { return SetBatchSystemId(); } }
 
         [Range(3, 3, ErrorMessage = "Head of Batch is out of format.")]
         public int HeadPipes { get; set; }
@@ -34,6 +34,7 @@ namespace BatchModel
 
         public string ?Body {get; set;}
 
+        [Compare("EOF", ErrorMessage = "End of File out of format")]
         public string? Eof { get; set; }
 
 

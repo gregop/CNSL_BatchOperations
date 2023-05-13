@@ -1,5 +1,7 @@
 ﻿using Utils;
 using System.IO;
+using CNSL_BatchOperations.Utils.ConsumeBatch;
+
 namespace CNSL_BatchOperations
 {
     internal class Program
@@ -34,6 +36,17 @@ namespace CNSL_BatchOperations
 
 
                 Dictionary<string, object> batch_content = Utilities.ReadBatchFile(file_path);
+
+                if (batch_content["Body"] is string[] body)
+                {
+                    ConsumeBatchContent consume = new ConsumeBatchContent(
+                    batch_content["Head"].ToString(),
+                    body,
+                    batch_content["EOF"].ToString());
+                }
+
+
+                
             }
             else
             {
