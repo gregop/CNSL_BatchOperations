@@ -224,6 +224,22 @@ namespace BatchModel
         public string? OrderId {get; set;}
         public string? AuthCode {get; set;}
 
+
+        public ValidationHelper ValidateCapture(string lineNumber)
+        {
+            ValidationHelper validation = new ValidationHelper();
+
+            if (CaptPipes != 9)
+            {
+                validation.AddError($"Batch Line {lineNumber} format invalid");
+                return validation;
+            };
+
+
+            return validation;
+
+        }
+
     }
     
 }
