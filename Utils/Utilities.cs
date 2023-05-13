@@ -74,5 +74,27 @@ namespace Utils
             return batchLine.Count(t => t == '|');
         }
 
+
+        /* Private method to get user input
+         * and handle non-accepted cases
+         */
+        public static string? GetUserInput(string message, string[] acceptedValues)
+        {
+            string? userInput;
+            Console.Write(message);
+            userInput = Console.ReadLine();
+
+
+            switch (userInput)
+            {
+                case string s when acceptedValues.Contains(s):
+                    return s;
+
+                default:
+                    Console.Write("Invalid input. Please try again.");
+                    return GetUserInput(message, acceptedValues);
+            }
+        }
+
     }
 }

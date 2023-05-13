@@ -4,31 +4,12 @@ namespace CNSL_BatchOperations
 {
     internal class Program
     {
-        /* Private method to get user input
-         * and handle non-accepted input
-         */
-        private static string? GetUserInput(string message, string[] acceptedValues)
-        {
-            string? userInput;  
-            Console.Write(message);
-            userInput = Console.ReadLine();
-
-
-            switch (userInput)
-            {
-                case string s when acceptedValues.Contains(s):
-                    return s;
-
-                default:
-                    Console.Write("Invalid input. Please try again.");
-                    return GetUserInput(message, acceptedValues);
-            }
-        }   
+ 
         static void Main(string[] args)
         {
 
             string[] acceptedValues = { "y", "n" };
-            string userInput = GetUserInput("Proceed with batch file? (y/n) : ", acceptedValues);
+            string? userInput = Utilities.GetUserInput("Proceed with batch file? (y/n) : ", acceptedValues);
 
             if (userInput == "y")
             {
