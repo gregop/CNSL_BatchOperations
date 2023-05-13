@@ -67,11 +67,23 @@ namespace Utils
         }
 
 
-
+        /* Returns the number (count) of
+         * Pipes "|" in a string 
+         */
         public static int CountPipes(string batchLine)
         {
 
             return batchLine.Count(t => t == '|');
+        }
+
+        /* Split the input string to substring 
+         * usind the Pipe "|" as a delimeter
+         * return a string array of the splitted strings 
+         */
+        public static string[] SplitBatchLine(string line)
+        {
+            string delimeter = "|";
+            return line.Split(delimeter, StringSplitOptions.None);
         }
 
 
