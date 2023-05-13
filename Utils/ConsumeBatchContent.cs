@@ -60,7 +60,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
 
                 if (validationErrors.Count == 0)
                 {
-                    Console.WriteLine("No Errors");
+                    Console.WriteLine("BatchSystemId {0} Head and Eof Consumer without Errors", batchModel.BatchSystemId);
                 }
                 else
                 {

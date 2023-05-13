@@ -7,6 +7,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using CNSL_BatchOperations.Models.Validations;
+using Utils;
 
 namespace BatchModel
 {
@@ -85,20 +86,58 @@ namespace BatchModel
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
-        [Range(6, 6, ErrorMessage = "AUTH line out of format")]
+        //[Range(6, 6, ErrorMessage = "AUTH line out of format")]
         public int AuthPipes { get; set; }
 
-        [ValidateCardNum("CardNum")]
+        //[ValidateCardNum("CardNum")]
         public string CardNum {get; set;}
-        public int Currency {get; set;}
+        public string Currency {get; set;}
         public string ExpDate {get; set;}
         public string Cvv {get; set;}
         public string PurchaseAmt {get; set;}
-        public string? OrderId {get; set;}
+        public string OrderId {get; set;}
 
-        public ValidationHelper ValidateAuthLine()
+        public ValidationHelper ValidateAuthLine(int lineNumber)
         {
+            ValidationHelper validation = new ValidationHelper();
 
+            if (AuthPipes != 6)
+            {
+                validation.AddError($"Batch Line {lineNumber} format invalid");
+                return validation;
+            };
+
+            if(! Utilities.IsNumericAndValidLength(CardNum, 15, 16))
+            {
+                validation.AddError($"Batch Line {lineNumber} Card format invalid");
+            }
+
+            if (!Utilities.IsNumericAndValidLength(Currency, 3))
+            {
+                validation.AddError($"Batch Line {lineNumber} Currency format invalid");
+            }
+
+            if (!Utilities.IsValidExpDate(ExpDate, 4) )
+            {
+                validation.AddError($"Batch Line {lineNumber} Card Expiry Date format invalid");
+            }
+
+            if (!Utilities.IsNumericAndValidLength(Cvv, 3, 4))
+            {
+                validation.AddError($"Batch Line {lineNumber} CVV format invalid");
+            }
+
+            if (!Utilities.IsValidPurchaseAmt(PurchaseAmt))
+            {
+                validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
+            }
+
+            if (!Utilities.IsValidOrderId(PurchaseAmt, "\"", "'", "=", "/"))
+            {
+                validation.AddError($"Batch Line {lineNumber} Order Id format invalid. Remove all chars like: \", ', =, / ");
+            }
+
+            return validation;
 
         }
 

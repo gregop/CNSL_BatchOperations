@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using System.IO;
 using System.Text;
 using BatchModel;
+using System.Globalization;
 
 namespace Utils
 {
@@ -106,6 +107,57 @@ namespace Utils
                     Console.Write("Invalid input. Please try again.");
                     return GetUserInput(message, acceptedValues);
             }
+        }
+
+
+        public static bool IsNumericAndValidLength(object value, params int[] validLenghts)
+        {
+            bool isNumeric = Int64.TryParse(value.ToString(), out Int64 number);
+
+            if (isNumeric && number > 0)
+            {
+                return validLenghts.Contains(number.ToString().Length);
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public static bool IsValidExpDate(object value, params int[] validLenghts)
+        {
+            bool isNumeric = value.ToString().All(char.IsDigit);
+
+            if (isNumeric && validLenghts.Contains(value.ToString().Length))
+            {
+                string monthString = value.ToString().Substring(0, 2);
+
+                return Int32.Parse(monthString) >= 1 && 
+                    Int32.Parse(monthString) <= 12 &&
+                    Int32.Parse(value.ToString()) > 0;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public static bool IsValidPurchaseAmt(object value)
+        {
+            bool isNumeric = value.ToString().All(char.IsDigit);
+
+            return isNumeric && value.ToString().Length == 12;
+
+            
+        }
+
+        public static bool IsValidOrderId(object value, params string[] restrictedValues)
+        {
+            bool containsRestrictedValue = restrictedValues.Any(restrictedValue => value.ToString().Contains(restrictedValue));
+
+            return !containsRestrictedValue;
         }
 
     }
