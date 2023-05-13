@@ -207,7 +207,7 @@ namespace BatchModel
 
             return validation;
 
-            return validation;
+            
         }
 
     }
