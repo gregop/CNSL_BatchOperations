@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using CNSL_BatchOperations.Models.Validations;
 
 namespace BatchModel
 {
@@ -37,6 +38,42 @@ namespace BatchModel
         [Compare("EOF", ErrorMessage = "End of File out of format")]
         public string? Eof { get; set; }
 
+        public ValidationHelper Validate()
+        {
+            ValidationHelper validation = new ValidationHelper();
+
+            if (HeadPipes != 3 ||
+                Mdet != "MDED" ||
+                AcquirerId != "402971") 
+            { 
+                validation.AddError("Batch head format invalid"); 
+            };
+
+            if (isValidOutlet(Outlet))
+            {
+                validation.AddError("Outlet number out of format");
+            }
+
+            if(BatchId == "" || BatchId.Length > 20) 
+            {
+                validation.AddError("Batch Id out of format");
+            }
+            
+            if(Eof != "EOF")
+            {
+                validation.AddError("End of line is missing or invalid");
+            }
+
+
+            return validation;
+            
+        }
+
+        private bool isValidOutlet(string outlet)
+        {
+            return outlet.All(char.IsDigit)
+            && outlet.ToString().Length == 10;
+        }
 
         private protected static int SetBatchSystemId(){
             return 1;

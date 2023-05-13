@@ -37,12 +37,39 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
 
             int head_Pipes = Utilities.CountPipes(head);
-            Console.WriteLine("BatchSystemId: {0}", batchModel.BatchSystemId);
+
+            string[]? head_values = Utilities.SplitBatchLine(head);
+
+            if (head_values.Length != head_Pipes +1)
+            {
+                _errorMessages.Add("Invalid Batch Head");
+                return;
+            }
+            else
+            {
+                batchModel.HeadPipes = head_Pipes;
+                batchModel.Eof = eof;
+
+                Console.WriteLine("BatchSystemId: {0}", batchModel.BatchSystemId);
+
+            }
+
+            
         }
 
         private void ConsumeBatchBody(string[] body)
         {
-            Console.WriteLine("ConsumeBatchBody");
+            /* Do not proceed with Body validations if
+             * batch head is not valid
+             */
+            if (_errorMessages.Count > 0)
+            {
+                return;
+            }
+            else
+            {
+                //do what you have to do
+            }
         }
 
 
