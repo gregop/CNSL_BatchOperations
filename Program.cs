@@ -4,32 +4,63 @@ namespace CNSL_BatchOperations
 {
     internal class Program
     {
+        /* Private method to get user input
+         * and handle non-accepted input
+         */
+        private static string? GetUserInput(string message, string[] acceptedValues)
+        {
+            string? userInput;  
+            Console.Write(message);
+            userInput = Console.ReadLine();
+
+
+            switch (userInput)
+            {
+                case string s when acceptedValues.Contains(s):
+                    return s;
+
+                default:
+                    Console.Write("Invalid input. Please try again.");
+                    return GetUserInput(message, acceptedValues);
+            }
+        }   
         static void Main(string[] args)
         {
 
+            string[] acceptedValues = { "y", "n" };
+            string userInput = GetUserInput("Proceed with batch file? (y/n) : ", acceptedValues);
 
-            string file_name = "validBatchFile.txt";
+            if (userInput == "y")
+            {
+                string file_name = "validBatchFile.txt";
 
-            /* run this when on Debug mode.
-             * Directory.GetCurrentDirectory() returns the current 
-             * working directory, which by default is the bin\Debug 
-             * when running the application from within an IDE.
-             */
+                /* run this when on Debug mode.
+                 * Directory.GetCurrentDirectory() returns the current 
+                 * working directory, which by default is the bin\Debug 
+                 * when running the application from within an IDE.
+                 */
 
-            string directory_path = Path.Combine(Directory
-                .GetParent(AppDomain.CurrentDomain.BaseDirectory)
-                .Parent
-                .Parent
-                .Parent
-                .FullName, "BatchFiles");
-
-
-            string file_path = Path.Combine(directory_path, file_name);
-            Console.WriteLine(file_path);
+                string directory_path = Path.Combine(Directory
+                    .GetParent(AppDomain.CurrentDomain.BaseDirectory)
+                    .Parent
+                    .Parent
+                    .Parent
+                    .FullName, "BatchFiles");
 
 
-            Dictionary<string, object> batch_content = Utilities.ReadBatchFile(file_path);
+                string file_path = Path.Combine(directory_path, file_name);
+                Console.WriteLine(file_path);
+
+
+                Dictionary<string, object> batch_content = Utilities.ReadBatchFile(file_path);
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
+            
 
         }
+
     }
 }
