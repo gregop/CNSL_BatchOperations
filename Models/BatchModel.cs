@@ -43,13 +43,13 @@ namespace BatchModel
             ValidationHelper validation = new ValidationHelper();
 
             if (HeadPipes != 3 ||
-                Mdet != "MDED" ||
+                Mdet != "MDET" ||
                 AcquirerId != "402971") 
             { 
                 validation.AddError("Batch head format invalid"); 
             };
 
-            if (isValidOutlet(Outlet))
+            if (!IsValidOutlet(Outlet))
             {
                 validation.AddError("Outlet number out of format");
             }
@@ -69,10 +69,10 @@ namespace BatchModel
             
         }
 
-        private bool isValidOutlet(string outlet)
+        private bool IsValidOutlet(string outlet)
         {
             return outlet.All(char.IsDigit)
-            && outlet.ToString().Length == 10;
+               && outlet.ToString().Length == 10;
         }
 
         private protected static int SetBatchSystemId(){
@@ -95,6 +95,12 @@ namespace BatchModel
         public string Cvv {get; set;}
         public string PurchaseAmt {get; set;}
         public string? OrderId {get; set;}
+
+        public ValidationHelper ValidateAuthLine()
+        {
+
+
+        }
 
     }
 

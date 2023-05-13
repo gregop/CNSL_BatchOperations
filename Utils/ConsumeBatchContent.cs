@@ -47,11 +47,29 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             }
             else
             {
+                // Assign batch file model values
+                Console.WriteLine("BatchSystemId: {0}", batchModel.BatchSystemId);
                 batchModel.HeadPipes = head_Pipes;
                 batchModel.Eof = eof;
+                batchModel.Mdet = head_values[0];
+                batchModel.Outlet = head_values[1];
+                batchModel.AcquirerId = head_values[2];
+                batchModel.BatchId = head_values[3];
 
-                Console.WriteLine("BatchSystemId: {0}", batchModel.BatchSystemId);
+                List<string> validationErrors = batchModel.Validate().GetErrors();
 
+                if (validationErrors.Count == 0)
+                {
+                    Console.WriteLine("No Errors");
+                }
+                else
+                {
+                    foreach (string error in validationErrors)
+                    {
+                        Console.WriteLine(error);
+                    }
+                }
+                
             }
 
             
