@@ -218,9 +218,9 @@ namespace BatchModel
 
         //[Range(9, 9, ErrorMessage = "AUTHC line out of format")]
         public int CaptPipes { get; set; }
-        public int Currency {get; set;}
-        public Int64 PurchaseAmt {get; set;}
-        public Int64 PurchaseAmtCapture {get; set;}
+        public string Currency {get; set;}
+        public string PurchaseAmt {get; set;}
+        public string PurchaseAmtCapture {get; set;}
         public string OrderId {get; set;}
         public string AuthCode {get; set;}
 
@@ -272,15 +272,10 @@ namespace BatchModel
     {
 
         public int BatchLinked { get { return SetBatchSystemId(); } }
-
         public int RefPipes { get; set; }
-
-        public string PurchaseAmt { get; set; }
-
+        public string RefundAmt { get; set; }
         public string Currency { get; set; }
-
         public string OrderId { get; set; }
-
         public string AuthCode { get; set; }
 
 
@@ -299,7 +294,8 @@ namespace BatchModel
                 validation.AddError($"Batch Line {lineNumber} Currency format invalid");
             }
 
-            if (!Utilities.IsValidPurchaseAmt(PurchaseAmt))
+
+            if (!Utilities.IsValidPurchaseAmt(RefundAmt))
             {
                 validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
             }
@@ -316,6 +312,60 @@ namespace BatchModel
 
 
             return validation;
+        }
+
+    }
+
+    public class Reversal : BatchFile
+    {
+        public int BatchLinked { get { return SetBatchSystemId(); } }
+        public int RevPipes { get; set; }
+        public string PurchaseAmt { get; set; }
+        public string Currency { get; set; } 
+        public string ReversalAmount { get; set; }
+        public string OrderId { get; set; }
+        public string AuthCode { get; set; }
+
+
+        public ValidationHelper ValidateReversal(string lineNumber)
+        {
+            ValidationHelper validation = new ValidationHelper();
+
+            if (RevPipes != 7)
+            {
+                validation.AddError($"Batch Line {lineNumber} format invalid");
+                return validation;
+            };
+
+            if (!Utilities.IsNumericAndValidLength(Currency, 3))
+            {
+                validation.AddError($"Batch Line {lineNumber} Currency format invalid");
+            }
+
+            if (!Utilities.IsValidPurchaseAmt(PurchaseAmt))
+            {
+                validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
+            }
+
+
+            if (!Utilities.IsValidPurchaseAmt(ReversalAmount))
+            {
+                validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
+            }
+
+            if (!Utilities.IsValidOrderId(OrderId, "\"", "'", "=", "/"))
+            {
+                validation.AddError($"Batch Line {lineNumber} Order Id format invalid. Remove all chars like: \", ', =, / ");
+            }
+
+            if (!Utilities.IsValidAuthCode(AuthCode))
+            {
+                validation.AddError($"Batch Line {lineNumber} AuthCode format invalid");
+            }
+
+
+            return validation;
+
         }
 
     }
