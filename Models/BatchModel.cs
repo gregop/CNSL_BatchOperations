@@ -216,7 +216,7 @@ namespace BatchModel
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
-        [Range(9, 9, ErrorMessage = "AUTHC line out of format")]
+        //[Range(9, 9, ErrorMessage = "AUTHC line out of format")]
         public int CaptPipes { get; set; }
         public int Currency {get; set;}
         public Int64 PurchaseAmt {get; set;}
@@ -263,6 +263,59 @@ namespace BatchModel
 
             return validation;
 
+        }
+
+    }
+
+
+    public class Refund : BatchFile
+    {
+
+        public int BatchLinked { get { return SetBatchSystemId(); } }
+
+        public int RefPipes { get; set; }
+
+        public string PurchaseAmt { get; set; }
+
+        public string Currency { get; set; }
+
+        public string OrderId { get; set; }
+
+        public string AuthCode { get; set; }
+
+
+        public ValidationHelper ValidateRefund(string lineNumber)
+        {
+            ValidationHelper validation = new ValidationHelper();
+
+            if (RefPipes != 7)
+            {
+                validation.AddError($"Batch Line {lineNumber} format invalid");
+                return validation;
+            };
+
+            if (!Utilities.IsNumericAndValidLength(Currency, 3))
+            {
+                validation.AddError($"Batch Line {lineNumber} Currency format invalid");
+            }
+
+            if (!Utilities.IsValidPurchaseAmt(PurchaseAmt))
+            {
+                validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
+            }
+
+            if (!Utilities.IsValidOrderId(OrderId, "\"", "'", "=", "/"))
+            {
+                validation.AddError($"Batch Line {lineNumber} Order Id format invalid. Remove all chars like: \", ', =, / ");
+            }
+
+            if (!Utilities.IsValidAuthCode(AuthCode))
+            {
+                validation.AddError($"Batch Line {lineNumber} AuthCode format invalid");
+            }
+
+
+            return validation;
         }
 
     }
