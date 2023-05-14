@@ -160,5 +160,10 @@ namespace Utils
             return !containsRestrictedValue;
         }
 
+
+        public static bool IsValidAuthCode(object value)
+        {
+            return value.ToString().All(char.IsLetterOrDigit);
+        }
     }
 }

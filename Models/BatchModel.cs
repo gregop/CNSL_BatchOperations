@@ -82,7 +82,7 @@ namespace BatchModel
 
     }
 
-    internal class Auth : BatchFile
+    public class Auth : BatchFile
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
@@ -143,7 +143,7 @@ namespace BatchModel
 
     }
 
-    internal class AuthCapture : BatchFile
+    public class AuthCapture : BatchFile
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
@@ -212,7 +212,7 @@ namespace BatchModel
 
     }
 
-    internal class Capture : BatchFile
+    public class Capture : BatchFile
     {
         public int BatchLinked  { get { return SetBatchSystemId(); }}
 
@@ -221,8 +221,8 @@ namespace BatchModel
         public int Currency {get; set;}
         public Int64 PurchaseAmt {get; set;}
         public Int64 PurchaseAmtCapture {get; set;}
-        public string? OrderId {get; set;}
-        public string? AuthCode {get; set;}
+        public string OrderId {get; set;}
+        public string AuthCode {get; set;}
 
 
         public ValidationHelper ValidateCapture(string lineNumber)
@@ -234,6 +234,31 @@ namespace BatchModel
                 validation.AddError($"Batch Line {lineNumber} format invalid");
                 return validation;
             };
+
+            if (!Utilities.IsNumericAndValidLength(Currency, 3))
+            {
+                validation.AddError($"Batch Line {lineNumber} Currency format invalid");
+            }
+
+            if (!Utilities.IsValidPurchaseAmt(PurchaseAmt))
+            {
+                validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
+            }
+
+            if (!Utilities.IsValidPurchaseAmt(PurchaseAmtCapture))
+            {
+                validation.AddError($"Batch Line {lineNumber} Purchase Amount format invalid");
+            }
+
+            if (!Utilities.IsValidOrderId(OrderId, "\"", "'", "=", "/"))
+            {
+                validation.AddError($"Batch Line {lineNumber} Order Id format invalid. Remove all chars like: \", ', =, / ");
+            }
+
+            if (!Utilities.IsValidAuthCode(AuthCode))
+            {
+                validation.AddError($"Batch Line {lineNumber} AuthCode format invalid");
+            }
 
 
             return validation;
