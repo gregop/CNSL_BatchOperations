@@ -13,9 +13,13 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
     {
         private List<string> _errorMessages;
 
+        private readonly string[] _body;
+
         public ConsumeBatchContent(string head, string[] body, string eof)
         {
             _errorMessages = new List<string>();
+            _body = body;
+
             BatchFile batchModel = new BatchFile();
 
             try
@@ -61,6 +65,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                 if (validationErrors.Count == 0)
                 {
                     Console.WriteLine("BatchSystemId {0} Head and Eof Consumer without Errors", batchModel.BatchSystemId);
+                    ConsumeBatchBody(_body);
                 }
                 else
                 {
