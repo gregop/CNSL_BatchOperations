@@ -103,7 +103,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                     switch (operation[0])
                     {
                         case ("AUTH"):
-
+                            Authorization(operation, i+1);
                             break;
 
                         case ("AUTHC"):
@@ -143,6 +143,33 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         public List<string> GetErrorMessages()
         {
             return _errorMessages;
+        }
+
+        private void Authorization(string[] operation, int lineNumber)
+        {
+            Auth auth = new Auth();
+
+            auth.AuthPipes = operation.Length;
+            auth.CardNum = operation[1];
+            auth.ExpDate = operation[2];
+            auth.Cvv = operation[3];
+            auth.PurchaseAmt = operation[4];
+            auth.Currency = operation[5];
+            auth.OrderId = operation[6];
+
+
+
+            List<string> validationMessages = auth.ValidateAuthLine(lineNumber).GetErrors();
+
+            if (validationMessages.Count > 0)
+            {
+                _errorMessages.AddRange(validationMessages);
+            }
+            else
+            {
+                _operations.Add(auth);
+            }
+                
         }
 
     }
