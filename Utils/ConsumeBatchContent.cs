@@ -103,7 +103,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                     switch (operation[0])
                     {
                         case ("AUTH"):
-                            Authorization(operation, i+1);
+                            Authorization(operation, i + 1);
                             break;
 
                         case ("AUTHC"):
@@ -111,17 +111,15 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                             break;
 
                         case ("CAPT"):
-
+                            Capture(operation, i + 1);
                             break;
-
 
                         case ("REF"):
-
+                            Refund(operation, i + 1);
                             break;
 
-
                         case ("REV"):
-
+                            Reversal(operation, i + 1);
                             break;
 
                         default:
@@ -130,7 +128,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                     }
 
                 }
-                //do what you have to do
+                
             }
         }
 
@@ -180,14 +178,14 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
 
 
             authC.AuthCPipes = operation.Length;
-            authC.CardNum = operation[0];
             authC.CardNum = operation[1];
-            authC.ExpDate = operation[2];
-            authC.Cvv = operation[3];
-            authC.PurchaseAmt = operation[4];
-            authC.PurchaseAmtCapture = operation[5];
-            authC.Currency = operation[6];
-            authC.OrderId = operation[7];
+            authC.CardNum = operation[2];
+            authC.ExpDate = operation[3];
+            authC.Cvv = operation[4];
+            authC.PurchaseAmt = operation[5];
+            authC.PurchaseAmtCapture = operation[6];
+            authC.Currency = operation[7];
+            authC.OrderId = operation[8];
 
 
             List<string> validationMessages = authC.ValidateAuthC(lineNumber).GetErrors();
@@ -202,6 +200,81 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                 _operations.Add(authC);
             }
 
+
+        }
+
+        private void Capture(string[] operation, int lineNumber)
+        {
+
+            Capture capt = new Capture();   
+
+            capt.CaptPipes = operation.Length;
+            capt.PurchaseAmt = operation[4];
+            capt.Currency = operation[5];
+            capt.PurchaseAmtCapture = operation[6];
+            capt.OrderId = operation[8];
+            capt.AuthCode = operation[9];
+
+            List<string> validationMessages = capt.ValidateCapture(lineNumber).GetErrors();
+
+            if (validationMessages.Count > 0)
+            {
+                _errorMessages.AddRange(validationMessages);
+                return;
+            }
+            else
+            {
+                _operations.Add(capt);
+            }
+
+        }
+
+        private void Refund(string[] operation, int lineNumber)
+        {
+            Refund refund = new Refund();
+
+            refund.RefPipes = operation.Length; 
+            refund.RefundAmt = operation[4];
+            refund.Currency = operation[5];
+            refund.OrderId = operation[6];
+            refund.AuthCode = operation[7];
+
+            List<string> validationMessages = refund.ValidateRefund(lineNumber).GetErrors();
+
+            if (validationMessages.Count > 0)
+            {
+                _errorMessages.AddRange(validationMessages);
+                return;
+            }
+            else
+            {
+                _operations.Add(refund);
+            }
+
+        }
+
+        private void Reversal(string[] operation, int lineNumber)
+        {
+            Reversal reversal = new Reversal();
+
+            reversal.RevPipes = operation.Length;
+            reversal.PurchaseAmt = operation[4];
+            reversal.Currency = operation[5];
+            reversal.ReversalAmount = operation[6];
+            reversal.OrderId = operation[7];
+            reversal.AuthCode = operation[8];
+
+            List<string> validationMessages = reversal.ValidateReversal(lineNumber).GetErrors();
+
+            if (validationMessages.Count > 0)
+            {
+                _errorMessages.AddRange(validationMessages);
+                return;
+            }
+            else
+            {
+                _operations.Add(reversal);
+            }
 
         }
 
