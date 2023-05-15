@@ -21,6 +21,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
 
         public ConsumeBatchContent(string head, string[] body, string eof)
         {
+            _operations = new List<object>();
             _errorMessages = new List<string>();
             _body = body;
 
@@ -101,7 +102,8 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             {
                 for(int i=0; i <= body.Length-1; i++)
                 {
-                    Console.WriteLine($"Line {i + 1}, {body[i]}");
+                    int lineNumber = i + 2;
+                    Console.WriteLine($"Line {lineNumber}, {body[i]}");
 
                     string[] operation = Utilities.SplitBatchLine(body[i]);
 
@@ -110,23 +112,23 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                     switch (operation[0])
                     {
                         case ("AUTH"):
-                            Authorization(operation, i + 1);
+                            Authorization(operation, lineNumber);
                             break;
 
                         case ("AUTHC"):
-                            AuthorizationCapture(operation, i + 1);
+                            AuthorizationCapture(operation, lineNumber);
                             break;
 
                         case ("CAPT"):
-                            Capture(operation, i + 1);
+                            Capture(operation, lineNumber);
                             break;
 
                         case ("REF"):
-                            Refund(operation, i + 1);
+                            Refund(operation, lineNumber);
                             break;
 
                         case ("REV"):
-                            Reversal(operation, i + 1);
+                            Reversal(operation, lineNumber);
                             break;
 
                         default:
@@ -191,13 +193,12 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             authC.OutletId = _outletId;
             authC.AuthCPipes = operation.Length - 1;
             authC.CardNum = operation[1];
-            authC.CardNum = operation[2];
-            authC.ExpDate = operation[3];
-            authC.Cvv = operation[4];
-            authC.PurchaseAmt = operation[5];
-            authC.PurchaseAmtCapture = operation[6];
-            authC.Currency = operation[7];
-            authC.OrderId = operation[8];
+            authC.ExpDate = operation[2];
+            authC.Cvv = operation[3];
+            authC.PurchaseAmt = operation[4];
+            authC.PurchaseAmtCapture = operation[5];
+            authC.Currency = operation[6];
+            authC.OrderId = operation[7];
 
 
             List<string> validationMessages = authC.ValidateAuthC(lineNumber).GetErrors();
@@ -247,6 +248,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         private void Refund(string[] operation, int lineNumber)
         {
             Refund refund = new Refund();
+            
 
             refund.BatchSystemId = _batchSystemId;
             refund.BatchIdLined = _batchId;

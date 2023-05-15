@@ -340,7 +340,7 @@ namespace BatchModel
         {
             ValidationHelper validation = new ValidationHelper();
 
-            if (RevPipes != 7)
+            if (RevPipes != 8)
             {
                 validation.AddError($"Batch Line {lineNumber} format invalid");
                 return validation;
