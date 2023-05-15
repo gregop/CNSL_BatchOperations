@@ -21,22 +21,22 @@ namespace BatchModel
         */
         public int BatchSystemId { get { return SetBatchSystemId(); } }
 
-        [Range(3, 3, ErrorMessage = "Head of Batch is out of format.")]
+        //[Range(3, 3, ErrorMessage = "Head of Batch is out of format.")]
         public int HeadPipes { get; set; }
 
         public string? Mdet { get; set; }
 
-        [ValidateOutlet("outlet")]
+        //[ValidateOutlet("outlet")]
         public string? Outlet {get; set;}
 
-        [Compare("402971", ErrorMessage = "Invalid Acquirer Id")]
+        //[Compare("402971", ErrorMessage = "Invalid Acquirer Id")]
         public string? AcquirerId {get; set;}
 
         public string? BatchId { get; set; }
 
         public string ?Body {get; set;}
 
-        [Compare("EOF", ErrorMessage = "End of File out of format")]
+        //[Compare("EOF", ErrorMessage = "End of File out of format")]
         public string? Eof { get; set; }
 
         public ValidationHelper Validate()
@@ -82,9 +82,11 @@ namespace BatchModel
 
     }
 
-    public class Auth : BatchFile
+    public class Auth
     {
-        public int BatchLinked  { get { return SetBatchSystemId(); }}
+        public int BatchSystemId { get; set; }
+
+        public string BatchIdLined { get; set; }
 
         //[Range(6, 6, ErrorMessage = "AUTH line out of format")]
         public int AuthPipes { get; set; }
@@ -143,10 +145,10 @@ namespace BatchModel
 
     }
 
-    public class AuthCapture : BatchFile
+    public class AuthCapture
     {
-        public int BatchLinked  { get { return SetBatchSystemId(); }}
-
+        public int BatchSystemId { get; set; }
+        public string BatchIdLined { get; set; }
         //[Range(10, 10, ErrorMessage = "AUTHC line out of format")]
         public int AuthCPipes { get; set; }
 
@@ -212,9 +214,10 @@ namespace BatchModel
 
     }
 
-    public class Capture : BatchFile
+    public class Capture
     {
-        public int BatchLinked  { get { return SetBatchSystemId(); }}
+        public int BatchSystemId { get; set; }
+        public string BatchIdLined { get; set; }
 
         //[Range(9, 9, ErrorMessage = "AUTHC line out of format")]
         public int CaptPipes { get; set; }
@@ -268,10 +271,11 @@ namespace BatchModel
     }
 
 
-    public class Refund : BatchFile
+    public class Refund
     {
 
-        public int BatchLinked { get { return SetBatchSystemId(); } }
+        public int BatchSystemId { get; set; }
+        public string BatchIdLined { get; set; }
         public int RefPipes { get; set; }
         public string RefundAmt { get; set; }
         public string Currency { get; set; }
@@ -316,9 +320,10 @@ namespace BatchModel
 
     }
 
-    public class Reversal : BatchFile
+    public class Reversal
     {
-        public int BatchLinked { get { return SetBatchSystemId(); } }
+        public int BatchSystemId { get;  set;  }
+        public string BatchIdLined { get; set; }
         public int RevPipes { get; set; }
         public string PurchaseAmt { get; set; }
         public string Currency { get; set; } 
