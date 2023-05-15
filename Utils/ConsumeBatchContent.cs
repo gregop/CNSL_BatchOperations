@@ -12,6 +12,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
     public class ConsumeBatchContent
     {
         private List<string> _errorMessages;
+        private List<BatchFile> _operations;
 
         private readonly string[] _body;
 
@@ -25,7 +26,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             try
             {
                 ConsumeBatchHeadandEof(head, eof, batchModel);
-                ConsumeBatchBody(body);
+                //ConsumeBatchBody(body);
 
             }
             catch (Exception ex)
@@ -91,6 +92,44 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             }
             else
             {
+                for(int i=0; i <= body.Length-1; i++)
+                {
+                    Console.WriteLine($"Line {i + 1}, {body[i]}");
+
+                    string[] operation = Utilities.SplitBatchLine(body[i]);
+
+                    Console.WriteLine(operation[0]);
+
+                    switch (operation[0])
+                    {
+                        case ("AUTH"):
+
+                            break;
+
+                        case ("AUTHC"):
+
+                            break;
+
+                        case ("CAPT"):
+
+                            break;
+
+
+                        case ("REF"):
+
+                            break;
+
+
+                        case ("REV"):
+
+                            break;
+
+                        default:
+                            _errorMessages.Add($"Unrecognized operation {operation[0]} on line {i + 1}");
+                            break;
+                    }
+
+                }
                 //do what you have to do
             }
         }
