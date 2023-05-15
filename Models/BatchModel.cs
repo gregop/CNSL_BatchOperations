@@ -90,7 +90,7 @@ namespace BatchModel
 
         //[Range(6, 6, ErrorMessage = "AUTH line out of format")]
         public int AuthPipes { get; set; }
-
+        public string OutletId { get; set; }
         //[ValidateCardNum("CardNum")]
         public string CardNum {get; set;}
         public string Currency {get; set;}
@@ -151,6 +151,7 @@ namespace BatchModel
         public string BatchIdLined { get; set; }
         //[Range(10, 10, ErrorMessage = "AUTHC line out of format")]
         public int AuthCPipes { get; set; }
+        public string OutletId { get; set; }
 
         //[ValidateCardNum("CardNum")]
         public string CardNum {get; set;}
@@ -221,6 +222,7 @@ namespace BatchModel
 
         //[Range(9, 9, ErrorMessage = "AUTHC line out of format")]
         public int CaptPipes { get; set; }
+        public string OutletId { get; set; }
         public string Currency {get; set;}
         public string PurchaseAmt {get; set;}
         public string PurchaseAmtCapture {get; set;}
@@ -277,6 +279,7 @@ namespace BatchModel
         public int BatchSystemId { get; set; }
         public string BatchIdLined { get; set; }
         public int RefPipes { get; set; }
+        public string OutletId { get; set; }
         public string RefundAmt { get; set; }
         public string Currency { get; set; }
         public string OrderId { get; set; }
@@ -325,6 +328,7 @@ namespace BatchModel
         public int BatchSystemId { get;  set;  }
         public string BatchIdLined { get; set; }
         public int RevPipes { get; set; }
+        public string OutletId { get; set; }
         public string PurchaseAmt { get; set; }
         public string Currency { get; set; } 
         public string ReversalAmount { get; set; }

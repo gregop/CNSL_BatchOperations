@@ -13,6 +13,9 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
     {
         private List<string> _errorMessages;
         private List<object> _operations;
+        private int _batchSystemId;
+        private string _batchId;
+        private string _outletId;
 
         private readonly string[] _body;
 
@@ -22,6 +25,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             _body = body;
 
             BatchFile batchModel = new BatchFile();
+            _batchSystemId = batchModel.BatchSystemId;
 
             try
             {
@@ -60,6 +64,9 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                 batchModel.Outlet = head_values[1];
                 batchModel.AcquirerId = head_values[2];
                 batchModel.BatchId = head_values[3];
+
+                _batchId = head_values[3];
+                _outletId = head_values[1];
 
                 List<string> validationErrors = batchModel.Validate().GetErrors();
 
@@ -147,6 +154,9 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
             Auth auth = new Auth();
 
+            auth.BatchSystemId = _batchSystemId;
+            auth.BatchIdLined = _batchId;
+            auth.OutletId = _outletId;
             auth.AuthPipes = operation.Length - 1;
             auth.CardNum = operation[1];
             auth.ExpDate = operation[2];
@@ -176,7 +186,9 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
 
             AuthCapture authC = new AuthCapture();
 
-
+            authC.BatchSystemId = _batchSystemId;
+            authC.BatchIdLined = _batchId;
+            authC.OutletId = _outletId;
             authC.AuthCPipes = operation.Length - 1;
             authC.CardNum = operation[1];
             authC.CardNum = operation[2];
@@ -206,8 +218,11 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         private void Capture(string[] operation, int lineNumber)
         {
 
-            Capture capt = new Capture();   
+            Capture capt = new Capture();
 
+            capt.BatchSystemId = _batchSystemId;
+            capt.BatchIdLined = _batchId;
+            capt.OutletId = _outletId;
             capt.CaptPipes = operation.Length - 1;
             capt.PurchaseAmt = operation[4];
             capt.Currency = operation[5];
@@ -233,6 +248,9 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
             Refund refund = new Refund();
 
+            refund.BatchSystemId = _batchSystemId;
+            refund.BatchIdLined = _batchId;
+            refund.OutletId = _outletId;
             refund.RefPipes = operation.Length - 1; 
             refund.RefundAmt = operation[4];
             refund.Currency = operation[5];
@@ -257,6 +275,9 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
             Reversal reversal = new Reversal();
 
+            reversal.BatchSystemId = _batchSystemId;
+            reversal.BatchIdLined = _batchId;
+            reversal.OutletId = _outletId;
             reversal.RevPipes = operation.Length - 1;
             reversal.PurchaseAmt = operation[4];
             reversal.Currency = operation[5];
