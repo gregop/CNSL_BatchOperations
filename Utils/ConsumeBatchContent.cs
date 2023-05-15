@@ -107,7 +107,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
                             break;
 
                         case ("AUTHC"):
-
+                            AuthorizationCapture(operation, i + 1);
                             break;
 
                         case ("CAPT"):
@@ -164,12 +164,45 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             if (validationMessages.Count > 0)
             {
                 _errorMessages.AddRange(validationMessages);
+                return;
             }
             else
             {
                 _operations.Add(auth);
             }
-                
+            
+        }
+
+        private void AuthorizationCapture(string[] operation, int lineNumber)
+        {
+
+            AuthCapture authC = new AuthCapture();
+
+
+            authC.AuthCPipes = operation.Length;
+            authC.CardNum = operation[0];
+            authC.CardNum = operation[1];
+            authC.ExpDate = operation[2];
+            authC.Cvv = operation[3];
+            authC.PurchaseAmt = operation[4];
+            authC.PurchaseAmtCapture = operation[5];
+            authC.Currency = operation[6];
+            authC.OrderId = operation[7];
+
+
+            List<string> validationMessages = authC.ValidateAuthC(lineNumber).GetErrors();
+
+            if (validationMessages.Count > 0)
+            {
+                _errorMessages.AddRange(validationMessages);
+                return;
+            }
+            else
+            {
+                _operations.Add(authC);
+            }
+
+
         }
 
     }

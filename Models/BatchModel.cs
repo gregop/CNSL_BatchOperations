@@ -160,7 +160,7 @@ namespace BatchModel
         public string OrderId {get; set;}
 
 
-        public ValidationHelper ValidateAuthC(string lineNumber)
+        public ValidationHelper ValidateAuthC(int lineNumber)
         {
             ValidationHelper validation = new ValidationHelper();
 
@@ -225,7 +225,7 @@ namespace BatchModel
         public string AuthCode {get; set;}
 
 
-        public ValidationHelper ValidateCapture(string lineNumber)
+        public ValidationHelper ValidateCapture(int lineNumber)
         {
             ValidationHelper validation = new ValidationHelper();
 
@@ -279,7 +279,7 @@ namespace BatchModel
         public string AuthCode { get; set; }
 
 
-        public ValidationHelper ValidateRefund(string lineNumber)
+        public ValidationHelper ValidateRefund(int lineNumber)
         {
             ValidationHelper validation = new ValidationHelper();
 
@@ -327,7 +327,7 @@ namespace BatchModel
         public string AuthCode { get; set; }
 
 
-        public ValidationHelper ValidateReversal(string lineNumber)
+        public ValidationHelper ValidateReversal(int lineNumber)
         {
             ValidationHelper validation = new ValidationHelper();
 
