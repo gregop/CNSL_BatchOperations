@@ -12,7 +12,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
     public class ConsumeBatchContent
     {
         private List<string> _errorMessages;
-        private List<BatchFile> _operations;
+        private List<object> _operations;
 
         private readonly string[] _body;
 
@@ -147,7 +147,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
             Auth auth = new Auth();
 
-            auth.AuthPipes = operation.Length;
+            auth.AuthPipes = operation.Length - 1;
             auth.CardNum = operation[1];
             auth.ExpDate = operation[2];
             auth.Cvv = operation[3];
@@ -177,7 +177,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             AuthCapture authC = new AuthCapture();
 
 
-            authC.AuthCPipes = operation.Length;
+            authC.AuthCPipes = operation.Length - 1;
             authC.CardNum = operation[1];
             authC.CardNum = operation[2];
             authC.ExpDate = operation[3];
@@ -208,7 +208,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
 
             Capture capt = new Capture();   
 
-            capt.CaptPipes = operation.Length;
+            capt.CaptPipes = operation.Length - 1;
             capt.PurchaseAmt = operation[4];
             capt.Currency = operation[5];
             capt.PurchaseAmtCapture = operation[6];
@@ -233,7 +233,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
             Refund refund = new Refund();
 
-            refund.RefPipes = operation.Length; 
+            refund.RefPipes = operation.Length - 1; 
             refund.RefundAmt = operation[4];
             refund.Currency = operation[5];
             refund.OrderId = operation[6];
@@ -257,7 +257,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         {
             Reversal reversal = new Reversal();
 
-            reversal.RevPipes = operation.Length;
+            reversal.RevPipes = operation.Length - 1;
             reversal.PurchaseAmt = operation[4];
             reversal.Currency = operation[5];
             reversal.ReversalAmount = operation[6];

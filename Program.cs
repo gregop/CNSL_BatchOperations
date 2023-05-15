@@ -40,9 +40,24 @@ namespace CNSL_BatchOperations
                 if (batch_content["Body"] is string[] body)
                 {
                     ConsumeBatchContent consume = new ConsumeBatchContent(
-                    batch_content["Head"].ToString(),
-                    body,
-                    batch_content["EOF"].ToString());
+                        batch_content["Head"].ToString(),
+                        body,
+                        batch_content["EOF"].ToString());
+
+                    List<string> errorMessages = consume.GetErrorMessages();
+
+                    if (errorMessages.Count > 0)
+                    {
+                        foreach (string error in errorMessages)
+                        {
+                            Console.WriteLine(error);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Errors");
+                    }
+                    
                 }
 
 
