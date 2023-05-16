@@ -44,10 +44,11 @@ namespace CNSL_BatchOperations
                         body,
                         batch_content["EOF"].ToString());
 
-                    List<string> errorMessages = consume.GetErrorMessages();
+                    
 
-                    if (errorMessages.Count > 0)
+                    if (!consume.IsBatchConsumed())
                     {
+                        List<string> errorMessages = consume.GetErrorMessages();
                         foreach (string error in errorMessages)
                         {
                             Console.WriteLine(error);
@@ -56,6 +57,14 @@ namespace CNSL_BatchOperations
                     else
                     {
                         Console.WriteLine("No Errors");
+                        List<object> paymentOperations = consume.GetOperations();
+
+                        foreach (object operation in paymentOperations)
+                        {
+                            Console.WriteLine(operation);
+
+                        }
+
                     }
                     
                 }

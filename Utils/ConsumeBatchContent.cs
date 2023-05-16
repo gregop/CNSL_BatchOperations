@@ -142,7 +142,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         }
 
 
-        public bool BatchConsumed()
+        public bool IsBatchConsumed()
         {
             return _errorMessages.Count == 0;
         }
@@ -150,6 +150,11 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         public List<string> GetErrorMessages()
         {
             return _errorMessages;
+        }
+
+        public List<object> GetOperations()
+        {
+            return _operations;
         }
 
         private void Authorization(string[] operation, int lineNumber)
