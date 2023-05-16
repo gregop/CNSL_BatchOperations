@@ -56,6 +56,14 @@ namespace CNSL_BatchOperations
                     else
                     {
                         Console.WriteLine("No Errors");
+                        List<object> paymentOperations = consume.GetOperations();
+
+                        foreach (object operation in paymentOperations)
+                        {
+                            Console.WriteLine(operation);
+
+                        }
+
                     }
                     
                 }

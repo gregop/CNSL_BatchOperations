@@ -152,6 +152,11 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
             return _errorMessages;
         }
 
+        public List<object> GetOperations()
+        {
+            return _operations;
+        }
+
         private void Authorization(string[] operation, int lineNumber)
         {
             Auth auth = new Auth();
