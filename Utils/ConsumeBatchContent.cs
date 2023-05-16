@@ -142,7 +142,7 @@ namespace CNSL_BatchOperations.Utils.ConsumeBatch
         }
 
 
-        public bool BatchConsumed()
+        public bool IsBatchConsumed()
         {
             return _errorMessages.Count == 0;
         }
